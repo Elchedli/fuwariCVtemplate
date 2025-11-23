@@ -1,12 +1,14 @@
 import Key from "../i18nKey";
 import type { Translation } from "../translation";
 
-export const en: Translation = {
-  [Key.about]: "About",
+export const fr: Translation = {
+  [Key.about]: "Francais patate",
   [Key.experience]: "Experience",
   [Key.projects]: "Projects",
   [Key.search]: "Search",
-  [Key.archive]: "Archive",
+
+  [Key.archive]: "Francais patate",
+
   [Key.tags]: "Tags",
   [Key.categories]: "Categories",
   [Key.recentPosts]: "Recent Posts",
