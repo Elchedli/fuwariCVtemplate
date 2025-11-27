@@ -1,5 +1,5 @@
 /* This is a script to create a new post markdown file with front-matter */
-
+// example : bun run new-post projects mexico-life
 import fs from "fs"
 import path from "path"
 
@@ -19,16 +19,15 @@ if (args.length === 0) {
 Usage: npm run new-post -- <filename>`)
   process.exit(1) // Terminate the script and return error code 1
 }
-
-let fileName = args[0]
-
+let collection = args[0]
+let fileName = args[1]
 // Add .md extension if not present
 const fileExtensionRegex = /\.(md|mdx)$/i
 if (!fileExtensionRegex.test(fileName)) {
   fileName += ".md"
 }
 
-const targetDir = "./src/content/posts/"
+const targetDir = `./src/content/${collection}/`
 const fullPath = path.join(targetDir, fileName)
 
 if (fs.existsSync(fullPath)) {
@@ -43,7 +42,7 @@ if (!fs.existsSync(dirPath)) {
 }
 
 const content = `---
-title: ${args[0]}
+title: ${fileName}
 published: ${getDate()}
 description: ''
 image: ''

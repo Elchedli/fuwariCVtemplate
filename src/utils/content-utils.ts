@@ -17,6 +17,19 @@ async function getRawSortedPosts() {
 	return sorted;
 }
 
+export async function getSortedProjects() {
+	const allProjects = await getCollection("projects", ({ data }) => {
+		return import.meta.env.PROD ? data.draft !== true : true;
+	});
+
+	const sorted = allProjects.sort((a, b) => {
+		const dateA = new Date(a.data.published);
+		const dateB = new Date(b.data.published);
+		return dateA > dateB ? -1 : 1;
+	});
+	return sorted;
+}
+
 export async function getSortedPosts() {
 	const sorted = await getRawSortedPosts();
 

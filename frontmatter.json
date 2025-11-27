@@ -7,6 +7,10 @@
     {
       "title": "posts",
       "path": "[[workspace]]/src/content/posts"
+    },
+    {
+      "title": "projects",
+      "path": "[[workspace]]/src/content/projects"
     }
   ],
   "frontMatter.taxonomy.contentTypes": [

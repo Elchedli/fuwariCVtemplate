@@ -5,7 +5,7 @@ import { LinkPreset, type NavBarLink } from "@/types/config";
 export const LinkPresets: { [key in LinkPreset]: NavBarLink } = {
   [LinkPreset.About]: {
     name: i18n(I18nKey.about),
-    url: "/",
+    url: "/about/",
   },
   [LinkPreset.Experience]: {
     name: i18n(I18nKey.experience),
