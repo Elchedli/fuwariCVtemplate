@@ -1,6 +1,5 @@
 ---
-import type { CollectionEntry, CollectionKey } from "astro:content";
-import { getPostUrlBySlug } from "@utils/url-utils";
+import { getProjectUrlBySlug } from "@utils/url-utils";
 import PostCard from "./PostCard.astro";
 
 const { page, contentType } = Astro.props;
@@ -19,7 +18,7 @@ const interval = 50;
         category={entry.data.category}
         published={entry.data.published}
         updated={entry.data.updated}
-        url={getPostUrlBySlug(entry.slug)}
+        url={getProjectUrlBySlug(entry.slug)}
         image={entry.data.image}
         description={entry.data.description}
         draft={entry.data.draft}
