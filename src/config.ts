@@ -44,12 +44,8 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.About,
 		LinkPreset.Experience,
 		LinkPreset.Project,
+		LinkPreset.Achievement,
 		// balsamiq: remove github if you want
-		{
-			name: "GitHub",
-			url: "https://github.com/Elchedli", // Internal links should not include the base path, as it is automatically added
-			external: true, // Show an external link icon and will open in a new tab
-		},
 	],
 };
 

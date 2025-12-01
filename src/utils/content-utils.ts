@@ -3,7 +3,7 @@ import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import { getCategoryUrl } from "@utils/url-utils.ts";
 
-type ContentType = "experiences" | "projects";
+type ContentType = "experiences" | "projects" | "achievements";
 export type Tag = {
 	name: string;
 	count: number;
@@ -40,6 +40,7 @@ export type PostsForList = {
 	slug: string;
 	data: CollectionEntry<"experiences">["data"];
 };
+
 export async function getSortedPostsList(
 	contentType: ContentType,
 ): Promise<PostsForList[]> {
@@ -58,7 +59,12 @@ export async function getSortedPostsList(
 export async function getSortedPostsAll(): Promise<PostsForList[]> {
 	const sortedExperiencesList = await getSortedPostsList("experiences");
 	const sortedProjectsList = await getSortedPostsList("projects");
-	return [...sortedExperiencesList, ...sortedProjectsList].sort((a, b) => {
+	const sortedAchivementsList = await getSortedPostsList("achievements");
+	return [
+		...sortedExperiencesList,
+		...sortedProjectsList,
+		...sortedAchivementsList,
+	].sort((a, b) => {
 		const dateA = new Date(a.data.published);
 		const dateB = new Date(b.data.published);
 		return dateA > dateB ? -1 : 1;

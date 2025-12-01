@@ -2,7 +2,8 @@ enum I18nKey {
 	about = "about",
 	experience = "experience",
 	archive = "archive",
-	projects = "projects",
+	project = "projects",
+	achievement = "achievement",
 	search = "search",
 
 	tags = "tags",

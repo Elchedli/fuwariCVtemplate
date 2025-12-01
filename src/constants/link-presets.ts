@@ -12,7 +12,11 @@ export const LinkPresets: { [key in LinkPreset]: NavBarLink } = {
 		url: "/experiences/",
 	},
 	[LinkPreset.Project]: {
-		name: i18n(I18nKey.projects),
+		name: i18n(I18nKey.project),
 		url: "/projects/",
+	},
+	[LinkPreset.Achievement]: {
+		name: i18n(I18nKey.achievement),
+		url: "/achievements/",
 	},
 };
