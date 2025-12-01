@@ -59,11 +59,11 @@ export async function getSortedPostsList(
 export async function getSortedPostsAll(): Promise<PostsForList[]> {
 	const sortedExperiencesList = await getSortedPostsList("experiences");
 	const sortedProjectsList = await getSortedPostsList("projects");
-	const sortedAchivementsList = await getSortedPostsList("achievements");
+	const sortedAchievementsList = await getSortedPostsList("achievements");
 	return [
 		...sortedExperiencesList,
 		...sortedProjectsList,
-		...sortedAchivementsList,
+		...sortedAchievementsList,
 	].sort((a, b) => {
 		const dateA = new Date(a.data.published);
 		const dateB = new Date(b.data.published);
@@ -85,7 +85,18 @@ export async function getTagList(): Promise<Tag[]> {
 			return import.meta.env.PROD ? data.draft !== true : true;
 		},
 	);
-	const allBlogPosts = [...allExperiencesBlog, ...allProjectsBlog];
+
+	const allAchievementsBlog = await getCollection<"achievements">(
+		"achievements",
+		({ data }) => {
+			return import.meta.env.PROD ? data.draft !== true : true;
+		},
+	);
+	const allBlogPosts = [
+		...allExperiencesBlog,
+		...allProjectsBlog,
+		...allAchievementsBlog,
+	];
 
 	const countMap: { [key: string]: number } = {};
 	allBlogPosts.forEach((post: { data: { tags: string[] } }) => {
@@ -123,7 +134,18 @@ export async function getCategoryList(): Promise<Category[]> {
 			return import.meta.env.PROD ? data.draft !== true : true;
 		},
 	);
-	const allBlogPosts = [...allExperiencesPosts, ...allProjectsPosts];
+
+	const allAchievementsPosts = await getCollection<"achievements">(
+		"achievements",
+		({ data }) => {
+			return import.meta.env.PROD ? data.draft !== true : true;
+		},
+	);
+	const allBlogPosts = [
+		...allExperiencesPosts,
+		...allProjectsPosts,
+		...allAchievementsPosts,
+	];
 
 	const count: { [key: string]: number } = {};
 	allBlogPosts.forEach((post: { data: { category: string | null } }) => {
