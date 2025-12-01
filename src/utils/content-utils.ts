@@ -4,6 +4,11 @@ import { i18n } from "@i18n/translation";
 import { getCategoryUrl } from "@utils/url-utils.ts";
 
 type ContentType = "experiences" | "projects";
+export type Tag = {
+	name: string;
+	count: number;
+};
+
 // // Retrieve posts and sort them by publication date
 async function getRawSortedPosts(contentType: ContentType) {
 	const allBlogExperiences = await getCollection(contentType, ({ data }) => {
@@ -42,6 +47,7 @@ export async function getSortedPostsList(
 
 	// delete post.body
 	const sortedPostsList = sortedFullPosts.map((post) => ({
+		contentType,
 		slug: post.slug,
 		data: post.data,
 	}));
@@ -49,18 +55,31 @@ export async function getSortedPostsList(
 	return sortedPostsList;
 }
 
-export type Tag = {
-	name: string;
-	count: number;
-};
+export async function getSortedPostsAll(): Promise<PostsForList[]> {
+	const sortedExperiencesList = await getSortedPostsList("experiences");
+	const sortedProjectsList = await getSortedPostsList("projects");
+	return [...sortedExperiencesList, ...sortedProjectsList].sort((a, b) => {
+		const dateA = new Date(a.data.published);
+		const dateB = new Date(b.data.published);
+		return dateA > dateB ? -1 : 1;
+	});
+}
 
 export async function getTagList(): Promise<Tag[]> {
-	const allBlogPosts = await getCollection<"experiences">(
+	const allExperiencesBlog = await getCollection<"experiences">(
 		"experiences",
 		({ data }) => {
 			return import.meta.env.PROD ? data.draft !== true : true;
 		},
 	);
+
+	const allProjectsBlog = await getCollection<"projects">(
+		"projects",
+		({ data }) => {
+			return import.meta.env.PROD ? data.draft !== true : true;
+		},
+	);
+	const allBlogPosts = [...allExperiencesBlog, ...allProjectsBlog];
 
 	const countMap: { [key: string]: number } = {};
 	allBlogPosts.forEach((post: { data: { tags: string[] } }) => {
@@ -85,12 +104,21 @@ export type Category = {
 };
 
 export async function getCategoryList(): Promise<Category[]> {
-	const allBlogPosts = await getCollection<"experiences">(
+	const allExperiencesPosts = await getCollection<"experiences">(
 		"experiences",
 		({ data }) => {
 			return import.meta.env.PROD ? data.draft !== true : true;
 		},
 	);
+
+	const allProjectsPosts = await getCollection<"projects">(
+		"projects",
+		({ data }) => {
+			return import.meta.env.PROD ? data.draft !== true : true;
+		},
+	);
+	const allBlogPosts = [...allExperiencesPosts, ...allProjectsPosts];
+
 	const count: { [key: string]: number } = {};
 	allBlogPosts.forEach((post: { data: { category: string | null } }) => {
 		if (!post.data.category) {

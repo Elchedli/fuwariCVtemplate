@@ -8,7 +8,6 @@ import { getPostUrlBySlug } from "../utils/url-utils";
 export let tags: string[];
 export let categories: string[];
 export let sortedPosts: Post[] = [];
-export let contentType: string;
 
 const params = new URLSearchParams(window.location.search);
 tags = params.has("tag") ? params.getAll("tag") : [];
@@ -16,6 +15,7 @@ categories = params.has("category") ? params.getAll("category") : [];
 const uncategorized = params.get("uncategorized");
 
 interface Post {
+	contentType: string;
 	slug: string;
 	data: {
 		title: string;
@@ -106,7 +106,7 @@ onMount(async () => {
 
             {#each group.posts as post}
                 <a
-                        href={getPostUrlBySlug(contentType,post.slug)}
+                        href={getPostUrlBySlug(post.contentType,post.slug)}
                         aria-label={post.data.title}
                         class="group btn-plain !block h-10 w-full rounded-lg hover:text-[initial]"
                 >
