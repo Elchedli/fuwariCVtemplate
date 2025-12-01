@@ -11,6 +11,10 @@
     {
       "title": "experiences",
       "path": "[[workspace]]/src/content/experiences"
+    },
+    {
+      "title": "spec",
+      "path": "[[workspace]]/src/content/spec"
     }
   ],
   "frontMatter.taxonomy.contentTypes": [

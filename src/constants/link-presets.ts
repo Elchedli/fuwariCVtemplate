@@ -3,16 +3,16 @@ import { i18n } from "@i18n/translation";
 import { LinkPreset, type NavBarLink } from "@/types/config";
 
 export const LinkPresets: { [key in LinkPreset]: NavBarLink } = {
-  [LinkPreset.About]: {
-    name: i18n(I18nKey.about),
-    url: "/",
-  },
-  [LinkPreset.Experience]: {
-    name: i18n(I18nKey.experience),
-    url: "/experiences/",
-  },
-  [LinkPreset.Project]: {
-    name: i18n(I18nKey.projects),
-    url: "/projects/",
-  },
+	[LinkPreset.About]: {
+		name: i18n(I18nKey.about),
+		url: "/about/",
+	},
+	[LinkPreset.Experience]: {
+		name: i18n(I18nKey.experience),
+		url: "/experiences/",
+	},
+	[LinkPreset.Project]: {
+		name: i18n(I18nKey.projects),
+		url: "/projects/",
+	},
 };
