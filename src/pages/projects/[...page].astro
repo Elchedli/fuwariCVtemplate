@@ -1,13 +1,13 @@
 ---
+import { getSortedPosts } from "@utils/content-utils";
 import type { GetStaticPaths } from "astro";
 import Pagination from "../../components/control/Pagination.astro";
 import PostPage from "../../components/PostPage.astro";
 import { PAGE_SIZE } from "../../constants/constants";
 import MainGridLayout from "../../layouts/MainGridLayout.astro";
-import { getSortedProjects } from "../../utils/content-utils";
 
 export const getStaticPaths = (async ({ paginate }) => {
-  const projects = await getSortedProjects();
+  const projects = await getSortedPosts("projects");
   return paginate(projects, { pageSize: PAGE_SIZE });
 }) satisfies GetStaticPaths;
 // https://github.com/withastro/astro/issues/6507#issuecomment-1489916992

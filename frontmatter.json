@@ -5,12 +5,12 @@
   "frontMatter.content.publicFolder": "public",
   "frontMatter.content.pageFolders": [
     {
-      "title": "posts",
-      "path": "[[workspace]]/src/content/posts"
-    },
-    {
       "title": "projects",
       "path": "[[workspace]]/src/content/projects"
+    },
+    {
+      "title": "experiences",
+      "path": "[[workspace]]/src/content/experiences"
     }
   ],
   "frontMatter.taxonomy.contentTypes": [
@@ -67,5 +67,6 @@
         }
       ]
     }
-  ]
+  ],
+  "frontMatter.git.enabled": false
 }
