@@ -3,13 +3,19 @@ import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import { getCategoryUrl } from "@utils/url-utils.ts";
 
+type ContentType = "experiences" | "projects";
+export type Tag = {
+	name: string;
+	count: number;
+};
+
 // // Retrieve posts and sort them by publication date
-async function getRawSortedPosts() {
-	const allBlogPosts = await getCollection("posts", ({ data }) => {
+async function getRawSortedPosts(contentType: ContentType) {
+	const allBlogExperiences = await getCollection(contentType, ({ data }) => {
 		return import.meta.env.PROD ? data.draft !== true : true;
 	});
 
-	const sorted = allBlogPosts.sort((a, b) => {
+	const sorted = allBlogExperiences.sort((a, b) => {
 		const dateA = new Date(a.data.published);
 		const dateB = new Date(b.data.published);
 		return dateA > dateB ? -1 : 1;
@@ -17,9 +23,8 @@ async function getRawSortedPosts() {
 	return sorted;
 }
 
-export async function getSortedPosts() {
-	const sorted = await getRawSortedPosts();
-
+export async function getSortedPosts(contentType: ContentType) {
+	const sorted = await getRawSortedPosts(contentType);
 	for (let i = 1; i < sorted.length; i++) {
 		sorted[i].data.nextSlug = sorted[i - 1].slug;
 		sorted[i].data.nextTitle = sorted[i - 1].data.title;
@@ -28,33 +33,53 @@ export async function getSortedPosts() {
 		sorted[i].data.prevSlug = sorted[i + 1].slug;
 		sorted[i].data.prevTitle = sorted[i + 1].data.title;
 	}
-
 	return sorted;
 }
-export type PostForList = {
+
+export type PostsForList = {
 	slug: string;
-	data: CollectionEntry<"posts">["data"];
+	data: CollectionEntry<"experiences">["data"];
 };
-export async function getSortedPostsList(): Promise<PostForList[]> {
-	const sortedFullPosts = await getRawSortedPosts();
+export async function getSortedPostsList(
+	contentType: ContentType,
+): Promise<PostsForList[]> {
+	const sortedFullPosts = await getRawSortedPosts(contentType);
 
 	// delete post.body
 	const sortedPostsList = sortedFullPosts.map((post) => ({
+		contentType,
 		slug: post.slug,
 		data: post.data,
 	}));
 
 	return sortedPostsList;
 }
-export type Tag = {
-	name: string;
-	count: number;
-};
+
+export async function getSortedPostsAll(): Promise<PostsForList[]> {
+	const sortedExperiencesList = await getSortedPostsList("experiences");
+	const sortedProjectsList = await getSortedPostsList("projects");
+	return [...sortedExperiencesList, ...sortedProjectsList].sort((a, b) => {
+		const dateA = new Date(a.data.published);
+		const dateB = new Date(b.data.published);
+		return dateA > dateB ? -1 : 1;
+	});
+}
 
 export async function getTagList(): Promise<Tag[]> {
-	const allBlogPosts = await getCollection<"posts">("posts", ({ data }) => {
-		return import.meta.env.PROD ? data.draft !== true : true;
-	});
+	const allExperiencesBlog = await getCollection<"experiences">(
+		"experiences",
+		({ data }) => {
+			return import.meta.env.PROD ? data.draft !== true : true;
+		},
+	);
+
+	const allProjectsBlog = await getCollection<"projects">(
+		"projects",
+		({ data }) => {
+			return import.meta.env.PROD ? data.draft !== true : true;
+		},
+	);
+	const allBlogPosts = [...allExperiencesBlog, ...allProjectsBlog];
 
 	const countMap: { [key: string]: number } = {};
 	allBlogPosts.forEach((post: { data: { tags: string[] } }) => {
@@ -79,9 +104,21 @@ export type Category = {
 };
 
 export async function getCategoryList(): Promise<Category[]> {
-	const allBlogPosts = await getCollection<"posts">("posts", ({ data }) => {
-		return import.meta.env.PROD ? data.draft !== true : true;
-	});
+	const allExperiencesPosts = await getCollection<"experiences">(
+		"experiences",
+		({ data }) => {
+			return import.meta.env.PROD ? data.draft !== true : true;
+		},
+	);
+
+	const allProjectsPosts = await getCollection<"projects">(
+		"projects",
+		({ data }) => {
+			return import.meta.env.PROD ? data.draft !== true : true;
+		},
+	);
+	const allBlogPosts = [...allExperiencesPosts, ...allProjectsPosts];
+
 	const count: { [key: string]: number } = {};
 	allBlogPosts.forEach((post: { data: { category: string | null } }) => {
 		if (!post.data.category) {

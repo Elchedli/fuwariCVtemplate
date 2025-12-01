@@ -1,0 +1,24 @@
+---
+// src/pages/debug-posts.astro
+import { getCollection } from "astro:content";
+
+const allPosts = await getCollection("projects");
+const publishedPosts = allPosts.filter((post) => !post.data.draft);
+---
+
+<h1>All Posts in Collection</h1>
+<pre>{JSON.stringify(allPosts.map(p => ({ id: p.id, slug: p.slug, draft: p.data.draft })), null, 2)}</pre>
+
+<h1>Published Posts</h1>
+<pre>{JSON.stringify(publishedPosts.map(p => ({ id: p.id, slug: p.slug })), null, 2)}</pre>
+
+<h1>Generated Paths</h1>
+<ul>
+  {
+    publishedPosts.map((post) => (
+      <li>
+        <a href={`/projects/${post.slug}/`}>/posts/{post.slug}/</a>
+      </li>
+    ))
+  }
+</ul>

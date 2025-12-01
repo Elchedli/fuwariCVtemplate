@@ -1,0 +1,29 @@
+---
+// src/pages/debug-routes.astro
+import { getCollection } from "astro:content";
+
+const allPosts = await getCollection("experiences");
+const allProjects = await getCollection("projects");
+---
+
+<h1>Posts Collection</h1>
+<ul>
+  {
+    allPosts.map((post) => (
+      <li>
+        <strong>Slug:</strong> {post.slug} →<a href={`/experiences//${post.slug}/`}>/experiences/{post.slug}/</a>
+      </li>
+    ))
+  }
+</ul>
+
+<h1>Projects Collection</h1>
+<ul>
+  {
+    allProjects.map((project) => (
+      <li>
+        <strong>Slug:</strong> {project.slug} →<a href={`/projects/${project.slug}/`}>/projects/{project.slug}/</a>
+      </li>
+    ))
+  }
+</ul>
