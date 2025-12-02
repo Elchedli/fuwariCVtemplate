@@ -41,11 +41,15 @@ export const siteConfig: SiteConfig = {
 
 export const navBarConfig: NavBarConfig = {
 	links: [
-		LinkPreset.About,
 		LinkPreset.Experience,
 		LinkPreset.Project,
 		LinkPreset.Achievement,
-		// balsamiq: remove github if you want
+		LinkPreset.Archive,
+		{
+			name: "Contact",
+			url: "mailto:chediwow@gmail.com",
+			external: true,
+		},
 	],
 };
 

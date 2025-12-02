@@ -45,7 +45,7 @@ export type Favicon = {
 };
 
 export enum LinkPreset {
-	About = 0,
+	Archive = 0,
 	Experience = 1,
 	Project = 2,
 	Achievement = 3,

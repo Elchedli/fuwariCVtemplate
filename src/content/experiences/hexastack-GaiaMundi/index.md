@@ -1,11 +1,10 @@
 ---
-title: Hexastack project
-published: 2025-11-25T22:55:34.404Z
-image: ../guide/cover.jpeg
-description: Bla bla just to try qsjdjksqdksqj
-tags:
-    - test
-category: idk
+title: Hexastack - GaiaMundi
+published: 2022-11-25T22:55:34.404Z
+image: ./coverimage.jpeg
+description: An analytic platform for social media platforms
+tags: [professional, cartographic]
+category: experiences
 language: EN
 keywords:
     - test
@@ -26,6 +25,7 @@ const prog = "test";
 ---
 title: My First Blog Post
 published: 2023-09-09
+image: "./cover.png"
 description: This is the first post of my new Astro blog.
 tags: [Foo, Bar]
 category: Front-end
