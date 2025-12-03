@@ -40,7 +40,6 @@ but to use the app you need to login or to register first
 in case you don't have an account you should create one
 
 
-
 ---
 ![GaiaMundi interface screenshot](./assets/diagram_explanation.png)
 
