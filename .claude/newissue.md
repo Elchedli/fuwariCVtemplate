@@ -1,54 +1,106 @@
-Create a modal image carousel that meets these specific requirements:
 
-## Current Setup
-- Using Svelte with Swup for page transitions
-- Markdown syntax: `:::carousel` blocks containing multiple images with descriptions
-- Currently showing individual images with `@image1`, `@image2` references
+Fix Svelte component hydration errors in Astro project with the following specifics:
 
-## Desired Behavior
+## Current Errors
+```
+[astro-island] Error hydrating /src/components/Search.svelte TypeError: Cannot read properties of undefined (reading 'call')
+[astro-island] Error hydrating /src/components/widget/DisplaySettings.svelte TypeError: Cannot read properties of undefined (reading 'call')
+[astro-island] Error hydrating /src/components/LightDarkSwitch.svelte TypeError: Cannot read properties of undefined (reading 'call')
+```
 
-### Initial State
-- Display only the FIRST image from the carousel block as a normal inline image
-- Image should be clickable (with visual cue like cursor: pointer)
+## Technical Context
+- Astro project with Svelte components
+- Using Swup for page transitions
+- Components are rendered as Astro islands
+- Recently modified carousel component may have affected dependencies
 
-### Modal Carousel on Click
-When clicking the main image:
-1. Open a full-screen/modal overlay
-2. Show the clicked image prominently in the center
-3. Display navigation:
-   - Left/right arrows for previous/next (with hover effects)
-   - Close button (top-right corner, "X" icon)
-4. Thumbnail strip at the bottom showing ALL carousel images
-   - Current image highlighted in thumbnail strip
-   - Thumbnails are clickable to jump to specific image
-   - Smooth horizontal scrolling if thumbnails overflow
-5. Image description displayed below main image (centered, styled text)
+## Required Fixes
 
-### Functionality Requirements
-- Click outside main image (on overlay backdrop) closes modal
-- Keyboard navigation (left/right arrow keys, Escape to close)
-- Smooth transitions between images (fade/slide animation)
-- Description updates for each image change
-- Swup-compatible (events properly cleaned up on page transitions)
+### 1. **Hydration Error Root Causes** (Diagnose & Fix)
+- Check for Svelte component props being undefined during hydration
+- Verify `bind:this` references aren't accessed before component mounts
+- Ensure no lifecycle method (onMount, beforeUpdate) calls undefined functions
+- Validate all reactive statements have proper dependency tracking
 
-### Styling Requirements
-- Modern, clean design with semi-transparent backdrop
-- Arrows: minimal design, appear on hover
-- Thumbnails: bordered with active state indicator
-- Description: elegant typography, good contrast
-- Responsive design for mobile/tablet
+### 2. **Common Hydration Issues to Resolve**
+#### For Search.svelte:
+- Ensure search input bindings don't reference undefined stores/state
+- Check autocomplete/suggestion logic for race conditions
 
-### Implementation Notes
-- Use existing `src/components/ImageCarousel.svelte` as base
-- Parse markdown `:::carousel` blocks to extract images and alt-text as descriptions
-- Ensure only ONE instance of carousel modal exists at a time
-- Optimize image loading (lazy load thumbnails, preload adjacent images)
+#### For DisplaySettings.svelte:
+- Verify theme/store references exist before component hydration
+- Check localStorage/sessionStorage access in onMount
 
-### Expected Markdown Transformation
-From:
-```markdown
-:::carousel
-![Description 1](./assets/carousel_login/1.png)
-![Description 2](./assets/carousel_login/2.png)
-![Description 3](./assets/carousel_login/3.png)
-:::
+#### For LightDarkSwitch.svelte:
+- Confirm theme toggle functions are properly imported/bound
+- Check media query listeners for SSR mismatch
+
+### 3. **Specific Code Checks**
+```javascript
+// Common patterns causing "reading 'call'" error:
+- Event handlers: `on:click={undefinedFunction}`
+- Bindings: `bind:value={undefinedStore}`
+- Actions: `use:undefinedAction`
+- Component props: `<Component {undefinedProp}>`
+- Dynamic imports: `import()` that resolves to undefined
+```
+
+### 4. **Svelte-Astro Integration Fixes**
+- Ensure all Svelte components have proper client directives:
+  ```astro
+  <Search client:load />  // vs client:idle, client:visible, client:only
+  ```
+- Check for missing `svelte-preprocess` in Astro config
+- Verify Svelte and Astro package versions are compatible
+
+### 5. **Swup-Specific Fixes**
+- Add Swup event listeners for component cleanup:
+  ```javascript
+  onMount(() => {
+    if (typeof window !== 'undefined') {
+      swup.on('contentReplaced', cleanup);
+    }
+  });
+  ```
+- Ensure components re-hydrate properly after Swup page transitions
+- Check for DOM element references that persist between page swaps
+
+### 6. **Build & Configuration**
+#### astro.config.mjs checks:
+```javascript
+export default defineConfig({
+  integrations: [svelte()],  // Ensure Svelte integration exists
+  vite: {
+    ssr: {
+      noExternal: ['@sveltejs/kit/*']  // May need to adjust
+    }
+  }
+});
+```
+
+#### package.json version checks:
+- `svelte`: "^4.0.0" or compatible
+- `@astrojs/svelte`: Latest stable
+- No duplicate Svelte versions in dependencies
+
+### 7. **Testing Steps After Fix**
+1. **Build verification**: `npm run build` (no errors)
+2. **Dev server**: `npm run dev` (components hydrate without errors)
+3. **Console check**: No hydration warnings in browser console
+4. **Swup navigation**: Components work across page transitions
+5. **Mobile responsiveness**: Components work on all screen sizes
+
+### 8. **Fallback Strategy**
+If immediate fix isn't possible:
+- Use `client:only="svelte"` directive for problematic components
+- Implement error boundaries with `{#catch error}` blocks
+- Add loading states while components hydrate
+
+## Expected Outcome
+- All three components (Search, DisplaySettings, LightDarkSwitch) hydrate without errors
+- No console warnings about hydration mismatches
+- Components remain functional with Swup page transitions
+- Original carousel functionality preserved
+```
+
+This prompt systematically addresses the hydration errors while considering your specific tech stack (Astro + Svelte + Swup). It provides both diagnostic steps and specific fixes for the common patterns that cause the "Cannot read properties of undefined (reading 'call')" error in Svelte-Astro projects.
