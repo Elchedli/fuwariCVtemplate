@@ -21,6 +21,7 @@ import { pluginLanguageBadge } from "./src/plugins/expressive-code/language-badg
 import { AdmonitionComponent } from "./src/plugins/rehype-component-admonition.mjs";
 import { GithubCardComponent } from "./src/plugins/rehype-component-github-card.mjs";
 import { GitlabCardComponent } from "./src/plugins/rehype-component-gitlab-card.mjs";
+import { ImageCarouselComponent } from "./src/plugins/rehype-component-image-carousel.mjs";
 import { parseDirectiveNode } from "./src/plugins/remark-directive-rehype.js";
 import { remarkExcerpt } from "./src/plugins/remark-excerpt.js";
 import { remarkReadingTime } from "./src/plugins/remark-reading-time.mjs";
@@ -123,6 +124,7 @@ export default defineConfig({
 					components: {
 						github: GithubCardComponent,
 						gitlab: GitlabCardComponent,
+						carousel: ImageCarouselComponent,
 						note: (x, y) => AdmonitionComponent(x, y, "note"),
 						tip: (x, y) => AdmonitionComponent(x, y, "tip"),
 						important: (x, y) => AdmonitionComponent(x, y, "important"),

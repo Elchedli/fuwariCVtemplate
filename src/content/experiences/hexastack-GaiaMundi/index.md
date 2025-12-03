@@ -37,11 +37,18 @@ To achieve this, the platform enables users to:
 * when you enter the site you will greeted by a lot of pages that you can view and navigate with them
 
 but to use the app you need to login or to register first
-in case you don't have an account you should create one
+in case you don't have an account you "need" to create one
 
+:::carousel
+![Login page](./assets/carousel_login/1.png)
+![second page](./assets/carousel_login/2.png)
+![third page](./assets/carousel_login/3.png)
+:::
 
 
 ---
+
+
 ![GaiaMundi interface screenshot](./assets/diagram_explanation.png)
 
 ### 1. Data Input

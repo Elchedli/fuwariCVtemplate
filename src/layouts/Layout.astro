@@ -10,6 +10,7 @@ import { defaultFavicons } from "../constants/icon";
 import type { Favicon } from "../types/config";
 import { pathsEqual, url } from "../utils/url-utils";
 import "katex/dist/katex.css";
+import "../styles/carousel.css";
 
 interface Props {
 	title?: string;
@@ -493,3 +494,4 @@ const bannerOffset = bannerOffsetByPosition[siteConfig.banner.position || "cente
 		document.addEventListener("swup:enable", setup);
 	}
 </script>
+<script src="../scripts/carousel.js"></script>
