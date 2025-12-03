@@ -503,21 +503,28 @@ const bannerOffset = bannerOffsetByPosition[siteConfig.banner.position || "cente
 		containers.forEach((container) => {
 			if (container.hasAttribute("data-mounted")) return;
 
-			try {
-				const images = JSON.parse(container.getAttribute("data-images") || "[]");
-				if (images.length > 0) {
-					container.innerHTML = "";
-					container.removeAttribute("style");
-					
-					mount(ImageCarousel, {
-						target: container,
-						props: { images },
-					});
+			// Find the hidden content div
+			const content = container.querySelector(".carousel-content");
+			if (!content) return;
 
-					container.setAttribute("data-mounted", "true");
-				}
-			} catch (e) {
-				console.error("Failed to mount carousel", e);
+			// Extract images from the DOM to ensure URLs are resolved by Astro/Vite
+			const imgElements = content.querySelectorAll("img");
+			const images = Array.from(imgElements).map((img) => ({
+				src: img.currentSrc || img.src,
+				alt: img.alt || ""
+			}));
+
+			if (images.length > 0) {
+				// Clear the container (removes the hidden content)
+				container.innerHTML = ""; 
+				container.removeAttribute("style");
+				
+				mount(ImageCarousel, {
+					target: container,
+					props: { images },
+				});
+
+				container.setAttribute("data-mounted", "true");
 			}
 		});
 	}
