@@ -33,12 +33,3 @@ The Rehype plugin/MDX transformer should convert the input syntax into a structu
 ### **3. Constraint (Normal Image Rendering)**
 
   * **Crucial:** All other standard Markdown images that are **not** inside the `::carousel ::` block must render as plain, unstyled `<img>` tags, retaining their normal behavior and structure.
-
------
-
-### **Suggested Next Steps for the AI:**
-
-Based on this, please provide:
-
-1.  A conceptual outline or pseudocode for the **Rehype plugin** logic (e.g., using `remark-directive` or similar tools) to transform the `::carousel` block into a React/MDX component node.
-2.  A basic **React/MDX component** (`<Carousel />`) that receives the image data (source, description) as props and implements the necessary Swup-friendly structure, arrow controls, and caption display.

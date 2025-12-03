@@ -39,6 +39,11 @@ To achieve this, the platform enables users to:
 but to use the app you need to login or to register first
 in case you don't have an account you should create one
 
+::carousel
+![Description for Image 1](./assets/carousel_login/1.png)
+![Description for Image 2](./assets/carousel_login/2.png)
+![Description for Image 3](./assets/carousel_login/3.png)
+::
 
 ---
 ![GaiaMundi interface screenshot](./assets/diagram_explanation.png)

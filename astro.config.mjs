@@ -21,13 +21,14 @@ import { pluginLanguageBadge } from "./src/plugins/expressive-code/language-badg
 import { AdmonitionComponent } from "./src/plugins/rehype-component-admonition.mjs";
 import { GithubCardComponent } from "./src/plugins/rehype-component-github-card.mjs";
 import { GitlabCardComponent } from "./src/plugins/rehype-component-gitlab-card.mjs";
+import { CarouselComponent } from "./src/plugins/rehype-component-carousel.mjs";
 import { parseDirectiveNode } from "./src/plugins/remark-directive-rehype.js";
 import { remarkExcerpt } from "./src/plugins/remark-excerpt.js";
 import { remarkReadingTime } from "./src/plugins/remark-reading-time.mjs";
 
 // https://astro.build/config
 export default defineConfig({
-	// site: "https://fuwari.vercel.app/",
+	site: "https://fuwari.vercel.app/",
 	base: "/",
 	trailingSlash: "always",
 	integrations: [
@@ -123,6 +124,7 @@ export default defineConfig({
 					components: {
 						github: GithubCardComponent,
 						gitlab: GitlabCardComponent,
+						carousel: CarouselComponent,
 						note: (x, y) => AdmonitionComponent(x, y, "note"),
 						tip: (x, y) => AdmonitionComponent(x, y, "tip"),
 						important: (x, y) => AdmonitionComponent(x, y, "important"),

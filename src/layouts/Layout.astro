@@ -493,3 +493,47 @@ const bannerOffset = bannerOffsetByPosition[siteConfig.banner.position || "cente
 		document.addEventListener("swup:enable", setup);
 	}
 </script>
+
+<script>
+	import { mount } from "svelte";
+	import ImageCarousel from "../components/ImageCarousel.svelte";
+
+	function initCarousels() {
+		const containers = document.querySelectorAll(".carousel-component");
+		containers.forEach((container) => {
+			if (container.hasAttribute("data-mounted")) return;
+
+			try {
+				const images = JSON.parse(container.getAttribute("data-images") || "[]");
+				if (images.length > 0) {
+					container.innerHTML = "";
+					container.removeAttribute("style");
+					
+					mount(ImageCarousel, {
+						target: container,
+						props: { images },
+					});
+
+					container.setAttribute("data-mounted", "true");
+				}
+			} catch (e) {
+				console.error("Failed to mount carousel", e);
+			}
+		});
+	}
+
+	const setup = () => {
+		initCarousels();
+		if (window.swup) {
+			window.swup.hooks.on("page:view", initCarousels);
+		}
+	};
+
+	if (window.swup) {
+		setup();
+	} else {
+		document.addEventListener("swup:enable", () => {
+			setup();
+		});
+	}
+</script>
