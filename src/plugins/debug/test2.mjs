@@ -1,8 +1,8 @@
 const repo = "Elchedli/Gaiamundi";
-const fetchRepo = await fetch("https://api.github.com/repos/" + repo, {
+const fetchRepo = fetch("https://api.github.com/repos/" + repo, {
 	referrerPolicy: "no-referrer",
 }).then((response) => response.json());
-const fetchCommits = await fetch(
+const fetchCommits = fetch(
 	"https://api.github.com/repos/" +
 		repo +
 		"/commits?sha=main&per_page=1&page=1",
@@ -21,7 +21,7 @@ const fetchCommits = await fetch(
 			.catch(() => 0);
 	})
 	.catch(() => 0);
-const fetchContributors = await fetch(
+const fetchContributors = fetch(
 	"https://api.github.com/repos/" + repo + "/contributors?per_page=1&anon=true",
 	{ referrerPolicy: "no-referrer" },
 )
@@ -39,5 +39,7 @@ const fetchContributors = await fetch(
 	})
 	.catch(() => 0);
 Promise.all([fetchRepo, fetchCommits, fetchContributors]).then(
-	console.log(fetchRepo, fetchCommits, fetchContributors),
+	([repo, commits, contributors]) => {
+		console.log(repo, commits, contributors);
+	},
 );
