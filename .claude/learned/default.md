@@ -1,0 +1,1 @@
+Gemini CLI have something called "Codebase Investigator" agent that reads data

@@ -511,14 +511,13 @@ const bannerOffset = bannerOffsetByPosition[siteConfig.banner.position || "cente
 			const imgElements = content.querySelectorAll("img");
 			const images = Array.from(imgElements).map((img) => ({
 				src: img.currentSrc || img.src,
-				alt: img.alt || ""
+				alt: img.alt || "",
 			}));
 
 			if (images.length > 0) {
 				// Clear the container (removes the hidden content)
-				container.innerHTML = ""; 
+				container.innerHTML = "";
 				container.removeAttribute("style");
-				
 				mount(ImageCarousel, {
 					target: container,
 					props: { images },
