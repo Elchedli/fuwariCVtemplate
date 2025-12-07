@@ -12,19 +12,23 @@ export function CarouselComponent(properties, children) {
 	if (!Array.isArray(children) || children.length === 0)
 		return h("div", { class: "hidden" }, "Invalid carousel directive.");
 
-    // Return a container that keeps the children (images) in the DOM
-    // but hidden, so Astro can process the paths and the client can read them.
+	// Return a container that keeps the children (images) in the DOM
+	// but hidden, so Astro can process the paths and the client can read them.
 	return h(
 		"div",
 		{
 			class: "carousel-component",
-            style: "min-height: 100px;" // Prevent total collapse before hydration
+			style: "min-height: 100px;", // Prevent total collapse before hydration
 		},
 		[
-            h("div", { 
-                class: "carousel-content", 
-                style: "display: none;" 
-            }, children)
-        ],
+			h(
+				"div",
+				{
+					class: "carousel-content",
+					style: "display: none;",
+				},
+				children,
+			),
+		],
 	);
 }

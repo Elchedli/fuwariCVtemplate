@@ -1,0 +1,13 @@
+### 2025-12-07 Prompt Processing
+- **Understood:** Refactor PhotoSwipe implementation. Replace custom modal in `ImageCarousel.svelte` with PhotoSwipe. Integrate `ImageCarousel.svelte` into `Layout.astro` to handle global lightbox functionality, replacing the manual script.
+- **Resolved:**
+    - Modified `src/components/ImageCarousel.svelte`:
+        - Removed custom modal logic and markup.
+        - integrated `PhotoSwipeLightbox`.
+        - Added `bindTo` prop to support global lightbox initialization (replicating the logic from `Layout.astro`).
+        - Added Swup hooks integration for global mode.
+        - Implemented dynamic dimension loading for programmatic opening.
+    - Modified `src/layouts/Layout.astro`:
+        - Imported `ImageCarousel` in frontmatter.
+        - Added `<ImageCarousel bindTo=".custom-md img, #post-cover img" client:only="svelte" />` to the template.
+        - Removed the legacy `PhotoSwipeLightbox` initialization script.

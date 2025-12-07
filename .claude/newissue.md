@@ -1,4 +1,3 @@
-
 **Issue: Refactor PhotoSwipe implementation to use reusable Svelte component in Astro Layout**
 
 **Current Situation:**
