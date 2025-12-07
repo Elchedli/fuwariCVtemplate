@@ -31,31 +31,31 @@ function portal(node: HTMLElement) {
 function openModal() {
 	isOpen = true;
 	currentIndex = inlineIndex;
-    zoomScale = 1;
+	zoomScale = 1;
 	document.body.style.overflow = "hidden";
 }
 
 function closeModal() {
 	isOpen = false;
-    zoomScale = 1;
+	zoomScale = 1;
 	document.body.style.overflow = "";
 }
 
 function next() {
 	currentIndex = (currentIndex + 1) % images.length;
-    zoomScale = 1;
+	zoomScale = 1;
 	scrollThumbnailIntoView();
 }
 
 function prev() {
 	currentIndex = (currentIndex - 1 + images.length) % images.length;
-    zoomScale = 1;
+	zoomScale = 1;
 	scrollThumbnailIntoView();
 }
 
 function goTo(index: number) {
 	currentIndex = index;
-    zoomScale = 1;
+	zoomScale = 1;
 	scrollThumbnailIntoView();
 }
 
@@ -79,11 +79,11 @@ function handleKeydown(e: KeyboardEvent) {
 }
 
 function handleWheel(e: WheelEvent) {
-    if (!isOpen) return;
-    e.preventDefault();
-    const delta = e.deltaY * -0.002;
-    const newScale = zoomScale + delta;
-    zoomScale = Math.min(Math.max(1, newScale), 5); // Clamp scale between 1 and 5
+	if (!isOpen) return;
+	e.preventDefault();
+	const delta = e.deltaY * -0.002;
+	const newScale = zoomScale + delta;
+	zoomScale = Math.min(Math.max(1, newScale), 5); // Clamp scale between 1 and 5
 }
 </script>
 
@@ -104,7 +104,7 @@ function handleWheel(e: WheelEvent) {
             <img 
                 src={images[inlineIndex].src} 
                 alt={images[inlineIndex].alt} 
-                class="w-full h-auto object-contain max-h-[70vh] mx-auto transition-transform duration-500"
+                class="w-full h-auto object-contain max-h-[70vh] mx-auto transition-transform duration-500 carouselImg"
             />
             <!-- Hover Overlay -->
             <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
@@ -130,7 +130,7 @@ function handleWheel(e: WheelEvent) {
                         aria-label={`View image ${i + 1}`}
                         type="button" 
                     >
-                        <img src={img.src} alt={img.alt} class="h-full w-full object-cover" />
+                        <img src={img.src} alt={img.alt} class="h-full w-full object-cover carouselImg" />
                     </button>
                 {/each}
             </div>
@@ -188,7 +188,7 @@ function handleWheel(e: WheelEvent) {
                      <img 
                         src={images[currentIndex].src} 
                         alt={images[currentIndex].alt}
-                        class="absolute object-contain shadow-2xl pointer-events-auto transition-transform duration-100 ease-out will-change-transform"
+                        class="absolute object-contain shadow-2xl pointer-events-auto transition-transform duration-100 ease-out will-change-transform carouselImg"
                         style="transform: scale({zoomScale}); max-width: 100%; max-height: 100%;"
                      />
                  {/key}

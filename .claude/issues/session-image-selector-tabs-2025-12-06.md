@@ -35,3 +35,12 @@ Loaded from `.claude/newissue.md`:
             - Used `<button type="button">` for thumbnails to prevent Swup.js from interpreting them as links.
             - Thumbnails only swap the `inlineIndex` (or `currentIndex` in modal), satisfying "only swap the displayed main image".
             - Styling uses borders and opacity (CSS) rather than background images.
+
+### [2025-12-06] Prompt Processing
+- **Understood:** The user wants to "fix: change img to something else like a button showing the img so i cannot click it through swup". This implies Swup.js might be mistakenly treating the inline image container as a navigational link.
+- **Resolved:**
+    - Modified `src/components/ImageCarousel.svelte`:
+        - Replaced the main inline image container `div` with a `<button type="button">` wrapper.
+        - Removed `role="button"` and `tabindex="0"` as they are redundant for a button.
+        - Added `block text-left p-0` classes to reset button styles and maintain the layout.
+        - This explicitly tells the browser and Swup that this is an interactive element, not a link.
