@@ -1,8 +1,3 @@
-**Issue: Refactor PhotoSwipe implementation to use reusable Svelte component in Astro Layout**
-
-**Current Situation:**
-- Existing PhotoSwipe implementation already built
-- Manual DOM manipulation for gallery functionality
-
-**Requirement:**
-existing Svelte component @ImageCarousel.svelte for PhotoSwipe gallery functionality and integrate it into `@Layout.astro` to replace custom implementations.
+You forgot to add those : 
+  * **Navigation:** The carousel must include **left and right arrow controls** for cycling through the images.
+  * **Caption/Description:** A visible element at the **bottom** of the carousel must display the **image description** (the text inside the `[]` of the Markdown image link) for the currently active image.

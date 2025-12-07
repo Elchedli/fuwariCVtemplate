@@ -243,3 +243,14 @@ Modify the carousel component :
     - Use CSS tab styling (background colors, not background images)
     - Prevent swup.js route triggering on tab selection
     - Tabs should only swap the displayed main image
+
+---------
+
+**Issue: Refactor PhotoSwipe implementation to use reusable Svelte component in Astro Layout**
+
+**Current Situation:**
+- Existing PhotoSwipe implementation already built
+- Manual DOM manipulation for gallery functionality
+
+**Requirement:**
+existing Svelte component @ImageCarousel.svelte for PhotoSwipe gallery functionality and integrate it into `@Layout.astro` to replace custom implementations.

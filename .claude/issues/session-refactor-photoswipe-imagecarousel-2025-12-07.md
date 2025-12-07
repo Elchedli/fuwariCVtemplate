@@ -1,13 +1,16 @@
 ### 2025-12-07 Prompt Processing
-- **Understood:** Refactor PhotoSwipe implementation. Replace custom modal in `ImageCarousel.svelte` with PhotoSwipe. Integrate `ImageCarousel.svelte` into `Layout.astro` to handle global lightbox functionality, replacing the manual script.
+- **Understood:** The user requested to re-apply all previous changes after stating that some were forgotten from a context file.
 - **Resolved:**
-    - Modified `src/components/ImageCarousel.svelte`:
-        - Removed custom modal logic and markup.
-        - integrated `PhotoSwipeLightbox`.
-        - Added `bindTo` prop to support global lightbox initialization (replicating the logic from `Layout.astro`).
-        - Added Swup hooks integration for global mode.
-        - Implemented dynamic dimension loading for programmatic opening.
-    - Modified `src/layouts/Layout.astro`:
-        - Imported `ImageCarousel` in frontmatter.
-        - Added `<ImageCarousel bindTo=".custom-md img, #post-cover img" client:only="svelte" />` to the template.
-        - Removed the legacy `PhotoSwipeLightbox` initialization script.
+    - Re-applied modifications to `src/components/ImageCarousel.svelte`:
+        - Replaced custom modal logic with PhotoSwipeLightbox.
+        - Added `bindTo` prop for global lightbox functionality.
+        - Integrated Swup hooks for global mode.
+        - Implemented dynamic image dimension loading.
+        - Enabled PhotoSwipe navigation arrows (`arrowPrev: true`, `arrowNext: true`).
+        - Registered a custom PhotoSwipe UI element for displaying image captions at the bottom, dynamically updating content on slide changes.
+    - Re-applied modifications to `src/layouts/Layout.astro`:
+        - Ensured `ImageCarousel` was imported in frontmatter.
+        - Ensured `<ImageCarousel bindTo=".custom-md img, #post-cover img" client:only="svelte" />` was present in the template.
+        - Ensured the legacy `PhotoSwipeLightbox` initialization script was removed.
+
+    (Note: Several `replace` operations reported no changes were made because the target content was already in the desired state from previous successful modifications.)
