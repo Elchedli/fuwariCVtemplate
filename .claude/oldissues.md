@@ -113,8 +113,7 @@ Fix Svelte component hydration errors in Astro project with the following specif
 ```
 [astro-island] Error hydrating /src/components/Search.svelte TypeError: Cannot read properties of undefined (reading 'call')
 [astro-island] Error hydrating /src/components/widget/DisplaySettings.svelte TypeError: Cannot read properties of undefined (reading 'call')
-[astro-island] Error hydrating /src/components/LightDarkSwitch.svelte TypeError: Cannot read properties of undefined (reading 'call')
-```
+[astro-island] Error hydrating /src/components/LightDarkSwitch.svelte TypeError: Cannot read properties of undefined (reading 'call') ```
 
 ## Technical Context
 - Astro project with Svelte components
@@ -209,7 +208,6 @@ If immediate fix isn't possible:
 - No console warnings about hydration mismatches
 - Components remain functional with Swup page transitions
 - Original carousel functionality preserved
-```
 
 ----------------------------------------------------------------
 
@@ -254,3 +252,13 @@ Modify the carousel component :
 
 **Requirement:**
 existing Svelte component @ImageCarousel.svelte for PhotoSwipe gallery functionality and integrate it into `@Layout.astro` to replace custom implementations.
+
+-----
+You forgot to add those : 
+  * **Navigation:** The carousel must include **left and right arrow controls** for cycling through the images.
+  * **Caption/Description:** A visible element at the **bottom** of the carousel must display the **image description** (the text inside the `[]` of the Markdown image link) for the currently active image.
+
+-----
+
+
+

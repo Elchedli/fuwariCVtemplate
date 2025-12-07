@@ -82,7 +82,8 @@ function setupGlobalLightbox() {
 
 	init();
 
-	const w = window as any;
+	const w = window as Window;
+
 	if (w.swup) {
 		w.swup.hooks.on("page:view", init);
 		w.swup.hooks.on(
@@ -95,34 +96,28 @@ function setupGlobalLightbox() {
 	}
 }
 
-function openPhotoSwipe(index: number) {
+async function openPhotoSwipe(index: number) {
 	if (!lightbox) {
+		const dataSource = await Promise.all(
+			images.map(async (img) => {
+				const image = new Image();
+				image.src = img.src;
+				await image.decode(); // Wait for the image to decode
+				return {
+					src: img.src,
+					alt: img.alt,
+					w: image.naturalWidth,
+					h: image.naturalHeight,
+				};
+			}),
+		);
+
 		lightbox = new PhotoSwipeLightbox({
-			dataSource: images.map((img) => ({
-				src: img.src,
-				alt: img.alt,
-				w: 0,
-				h: 0,
-			})),
+			dataSource,
 			...lightboxOptions,
 		});
 
 		registerCaption(lightbox);
-
-		lightbox.on("gettingData", (event) => {
-			const { data } = event;
-			if (data.w === 0 || data.h === 0) {
-				const img = new Image();
-				img.src = data.src as string;
-				img.onload = () => {
-					data.w = img.naturalWidth;
-					data.h = img.naturalHeight;
-					lightbox.refreshSlideContent(event.index);
-					lightbox.updateSize(true);
-				};
-			}
-		});
-
 		lightbox.init();
 	}
 
@@ -148,7 +143,7 @@ onDestroy(() => {
 		<!-- biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> -->
 		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<div
-			class="relative w-full overflow-hidden rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 cursor-zoom-in group select-none"
+			class="relative w-full overflow-hidden rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 cursor-pointer group select-none"
 			onclick={() => openPhotoSwipe(inlineIndex)}
 			role="button"
 			tabindex="0"
