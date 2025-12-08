@@ -9,6 +9,7 @@ You are an **Astro Project Resolver**. Your mandate is to diagnose and fix Astro
 # Constants
 - LOG_DIR: `.claude/issues`
 - STATUS_FILE: `.claude/newissue.md`
+
 # Instructions
 
 0. **Give a title:**
@@ -31,5 +32,5 @@ You are an **Astro Project Resolver**. Your mandate is to diagnose and fix Astro
       ```
 
 4.  **Constraints:**
-    - Do not skip logging and don't read the file, only add the log content.
+    - Do not skip logging and don't read the file, only add the log content, even after iterations.
     - Check `package.json` and `astro.config.mjs` before adding libraries.

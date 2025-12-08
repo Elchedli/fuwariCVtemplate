@@ -9,26 +9,33 @@ import { h } from "hastscript";
  * @returns {import('mdast').Parent} The created Carousel component.
  */
 export function CarouselComponent(properties, children) {
-	if (!Array.isArray(children) || children.length === 0)
-		return h("div", { class: "hidden" }, "Invalid carousel directive.");
+	const images = [];
 
-	// Return a container that keeps the children (images) in the DOM
-	// but hidden, so Astro can process the paths and the client can read them.
-	return h(
-		"div",
-		{
-			class: "carousel-component",
-			style: "min-height: 100px;", // Prevent total collapse before hydration
-		},
-		[
-			h(
-				"div",
-				{
-					class: "carousel-content",
-					style: "display: none;",
-				},
-				children,
-			),
-		],
-	);
+	// Visit all nodes in children to find 'img' elements
+	const visitChildren = (nodes) => {
+		if (!nodes) return;
+		for (const node of nodes) {
+			if (node.tagName === "img") {
+				images.push({
+					src: node.properties.src,
+					alt: node.properties.alt || "",
+				});
+			}
+			if (node.children) {
+				visitChildren(node.children);
+			}
+		}
+	};
+
+	visitChildren(children);
+
+	if (images.length === 0) {
+		return h("div", { class: "hidden" }, "No images found in carousel.");
+	}
+
+	return h("div", {
+		class: "carousel-component",
+		"data-images": JSON.stringify(images),
+		style: "display: contents;", // Use contents so the Svelte component can control layout
+	});
 }
