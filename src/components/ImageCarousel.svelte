@@ -191,7 +191,7 @@ onDestroy(() => {
 						aria-label={`View image ${i + 1}`}
 						type="button"
 					>
-						<img src={img.src} alt={img.alt} class="h-full w-full object-cover carouselComponent" />
+						<img src={img.src} alt={img.alt} class="h-full w-full object-cover carouselImg" />
 					</button>
 				{/each}
 			</div>
