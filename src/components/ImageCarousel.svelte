@@ -105,6 +105,7 @@ async function openPhotoSwipe(index: number) {
 				await image.decode(); // Wait for the image to decode
 				return {
 					src: img.src,
+					msrc: img.src,
 					alt: img.alt,
 					w: image.naturalWidth,
 					h: image.naturalHeight,
