@@ -8,21 +8,33 @@ import { getDir } from "../utils/url-utils";
 import ImageWrapper from "./misc/ImageWrapper.astro";
 import PostMetadata from "./PostMeta.astro";
 
-const { entry, title, url, published, updated, tags, category, image, description, style, contentType } = Astro.props;
+const {
+	entry,
+	title,
+	url,
+	published,
+	updated,
+	tags,
+	category,
+	image,
+	description,
+	style,
+	contentType,
+} = Astro.props;
 interface Props<C extends CollectionKey> {
-  class?: string;
-  entry: CollectionEntry<C>;
-  title: string;
-  url: string;
-  published: Date;
-  updated?: Date;
-  tags: string[];
-  category: string | null;
-  image: string;
-  description: string;
-  draft: boolean;
-  style: string;
-  contentType: string;
+	class?: string;
+	entry: CollectionEntry<C>;
+	title: string;
+	url: string;
+	published: Date;
+	updated?: Date;
+	tags: string[];
+	category: string | null;
+	image: string;
+	description: string;
+	draft: boolean;
+	style: string;
+	contentType: string;
 }
 const className = Astro.props.class;
 

@@ -8,7 +8,7 @@ import { h } from "hastscript";
  * @param {import('mdast').RootContent[]} children - The children elements of the component.
  * @returns {import('mdast').Parent} The created Carousel component.
  */
-export function CarouselComponent(properties, children) {
+export function CarouselComponent(_properties, children) {
 	if (!Array.isArray(children) || children.length === 0)
 		return h("div", { class: "hidden" }, "Invalid carousel directive.");
 
