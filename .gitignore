@@ -35,3 +35,4 @@ yarn.lock
 # AI stuff
 .claude/draft.md
 .claude/newissue.md
+docs/ai_history/
