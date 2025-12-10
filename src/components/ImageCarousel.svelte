@@ -13,6 +13,7 @@ interface Props {
 let { images = [], bindTo }: Props = $props();
 
 let inlineIndex = $state(0);
+let mainImageEl: HTMLImageElement | undefined = $state();
 let lightbox: PhotoSwipeLightbox;
 const lightboxOptions = {
 	pswpModule: () => import("photoswipe"),
@@ -97,30 +98,30 @@ function setupGlobalLightbox() {
 }
 
 async function openPhotoSwipe(index: number) {
-	if (!lightbox) {
-		const dataSource = await Promise.all(
-			images.map(async (img) => {
-				const image = new Image();
-				image.src = img.src;
-				await image.decode(); // Wait for the image to decode
-				return {
-					src: img.src,
-					msrc: img.src,
-					alt: img.alt,
-					w: image.naturalWidth,
-					h: image.naturalHeight,
-				};
-			}),
-		);
+	if (lightbox) lightbox.destroy();
+	const dataSource = await Promise.all(
+		images.map(async (img, i) => {
+			const image = new Image();
+			image.src = img.src;
+			await image.decode(); // Wait for the image to decode
+			return {
+				src: img.src,
+				msrc: img.src,
+				alt: img.alt,
+				w: image.naturalWidth,
+				h: image.naturalHeight,
+				element: i === inlineIndex ? mainImageEl : undefined,
+			};
+		}),
+	);
 
-		lightbox = new PhotoSwipeLightbox({
-			dataSource,
-			...lightboxOptions,
-		});
+	lightbox = new PhotoSwipeLightbox({
+		dataSource,
+		...lightboxOptions,
+	});
 
-		registerCaption(lightbox);
-		lightbox.init();
-	}
+	registerCaption(lightbox);
+	lightbox.init();
 
 	lightbox.loadAndOpen(index);
 }
@@ -150,6 +151,7 @@ onDestroy(() => {
 			tabindex="0"
 		>
 			<img
+				bind:this={mainImageEl}
 				src={images[inlineIndex].src}
 				alt={images[inlineIndex].alt}
 				class="w-full h-auto object-contain max-h-[70vh] mx-auto transition-transform duration-500 carouselImg"
