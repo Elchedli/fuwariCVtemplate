@@ -3,7 +3,7 @@
 	"type": "module",
 	"version": "0.0.1",
 	"scripts": {
-		"dev": "astro dev",
+		"dev": "ASTRO_CACHE_DISABLED=true astro dev",
 		"start": "astro dev",
 		"check": "astro check",
 		"build": "astro build && pagefind --site dist",
