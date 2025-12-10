@@ -29,3 +29,10 @@ yarn.lock
 # ide
 .idea
 *.iml
+
+.env.*
+
+# AI stuff
+.claude/draft.md
+.claude/newissue.md
+docs/ai_history/

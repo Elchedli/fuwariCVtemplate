@@ -50,19 +50,46 @@ export function GithubCardComponent(properties, children) {
 		"Waiting for api.github.com...",
 	);
 
-	const nStars = h(`div#${cardUuid}-stars`, { class: "gc-stars" }, "00K");
-	const nForks = h(`div#${cardUuid}-forks`, { class: "gc-forks" }, "0K");
+	const nCommits = h(`div#${cardUuid}-commits`, { class: "gc-commits" }, "0K");
+	const nContributors = h(
+		`div#${cardUuid}-contributors`,
+		{ class: "gc-contributors" },
+		"0K",
+	);
 	const nLicense = h(`div#${cardUuid}-license`, { class: "gc-license" }, "0K");
 
 	const nScript = h(
 		`script#${cardUuid}-script`,
 		{ type: "text/javascript", defer: true },
 		`
-      fetch('https://api.github.com/repos/${repo}', { referrerPolicy: "no-referrer" }).then(response => response.json()).then(data => {
+      const repo = "${repo}";
+      const fetchRepo = fetch('https://api.github.com/repos/' + repo, { referrerPolicy: "no-referrer" }).then(response => response.json());
+      const fetchCommits = fetch('https://api.github.com/repos/' + repo + '/commits?sha=main&per_page=1&page=1', { referrerPolicy: "no-referrer" })
+        .then(response => {
+            if (!response.ok) return 0;
+            const link = response.headers.get('link');
+            if (link) {
+                const match = link.match(/page=([0-9]+)>; rel="last"/);
+                if (match) return parseInt(match[1]);
+            }
+            return response.json().then(d => Array.isArray(d) ? d.length : 0).catch(() => 0);
+        }).catch(() => 0);
+      const fetchContributors = fetch('https://api.github.com/repos/' + repo + '/contributors?per_page=1&anon=true', { referrerPolicy: "no-referrer" })
+        .then(response => {
+            if (!response.ok) return 0;
+            const link = response.headers.get('link');
+            if (link) {
+                const match = link.match(/page=([0-9]+)>; rel="last"/);
+                if (match) return parseInt(match[1]);
+            }
+            return response.json().then(d => Array.isArray(d) ? d.length : 0).catch(() => 0);
+        }).catch(() => 0);
+
+      Promise.all([fetchRepo, fetchCommits, fetchContributors]).then(([data, commits, contributors]) => {
         document.getElementById('${cardUuid}-description').innerText = data.description?.replace(/:[a-zA-Z0-9_]+:/g, '') || "Description not set";
         document.getElementById('${cardUuid}-language').innerText = data.language;
-        document.getElementById('${cardUuid}-forks').innerText = Intl.NumberFormat('en-us', { notation: "compact", maximumFractionDigits: 1 }).format(data.forks).replaceAll("\u202f", '');
-        document.getElementById('${cardUuid}-stars').innerText = Intl.NumberFormat('en-us', { notation: "compact", maximumFractionDigits: 1 }).format(data.stargazers_count).replaceAll("\u202f", '');
+        document.getElementById('${cardUuid}-commits').innerText = Intl.NumberFormat('en-us', { notation: "compact", maximumFractionDigits: 1 }).format(commits).replaceAll("\\u202f", '');
+        document.getElementById('${cardUuid}-contributors').innerText = Intl.NumberFormat('en-us', { notation: "compact", maximumFractionDigits: 1 }).format(contributors).replaceAll("\\u202f", '');
         const avatarEl = document.getElementById('${cardUuid}-avatar');
         avatarEl.style.backgroundImage = 'url(' + data.owner.avatar_url + ')';
         avatarEl.style.backgroundColor = 'transparent';
@@ -88,7 +115,12 @@ export function GithubCardComponent(properties, children) {
 		[
 			nTitle,
 			nDescription,
-			h("div", { class: "gc-infobar" }, [nStars, nForks, nLicense, nLanguage]),
+			h("div", { class: "gc-infobar" }, [
+				nCommits,
+				nContributors,
+				nLicense,
+				nLanguage,
+			]),
 			nScript,
 		],
 	);

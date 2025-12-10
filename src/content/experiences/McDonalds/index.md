@@ -1,14 +1,13 @@
 ---
-title: Hexastack project
+title: McDonalds (Granby) -- (hide mode)
 published: 2025-11-25T22:55:34.404Z
-image: ../guide/cover.jpeg
-description: Bla bla just to try qsjdjksqdksqj
-tags:
-    - test
-category: idk
+image: ./cover.png
+description: Restaurant.
+tags: [professional]
+category: experiences
 language: EN
 keywords:
-    - test
+    - professional, company, startup
 ---
 
 

@@ -7,8 +7,8 @@ import { PAGE_SIZE } from "../../constants/constants";
 import MainGridLayout from "../../layouts/MainGridLayout.astro";
 
 export const getStaticPaths = (async ({ paginate }) => {
-  const allBlogExperiences = await getSortedPosts("experiences");
-  return paginate(allBlogExperiences, { pageSize: PAGE_SIZE });
+	const allBlogExperiences = (await getSortedPosts("experiences")).reverse();
+	return paginate(allBlogExperiences, { pageSize: PAGE_SIZE });
 }) satisfies GetStaticPaths;
 // https://github.com/withastro/astro/issues/6507#issuecomment-1489916992
 
