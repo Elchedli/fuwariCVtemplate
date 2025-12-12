@@ -1,1 +1,1 @@
-(No active issue)
+Investigate component `@rehype-component-github-card.mjs` lifecycle. Ensure animation resources are fully deallocated on unmount. Persistent animation indicates stale event listeners or un-cleaned animation frames.

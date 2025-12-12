@@ -32,5 +32,5 @@ You are an **Astro Project Resolver**. Your mandate is to diagnose and fix Astro
       ```
 
 4.  **Constraints:**
-    - Do not skip logging and don't read the file, only add the log content, even after iterations.
+    - Do not skip logging and don't read the logging file, only add the log content, even after iterations.
     - Check `package.json` and `astro.config.mjs` before adding libraries.
