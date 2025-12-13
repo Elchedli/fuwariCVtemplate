@@ -63,65 +63,47 @@ export function GithubCardComponent(properties, children) {
 		{ type: "text/javascript", defer: true },
 		`
       (() => {
-        const repo = "${repo}";
-        const fetchRepo = fetch('https://api.github.com/repos/' + repo, { referrerPolicy: "no-referrer" }).then(response => response.json());
-        const fetchCommits = fetch('https://api.github.com/repos/' + repo + '/commits?sha=main&per_page=1&page=1', { referrerPolicy: "no-referrer" })
-          .then(response => {
-              if (!response.ok) return 0;
-              const link = response.headers.get('link');
-              if (link) {
-                  const match = link.match(/page=([0-9]+)>; rel="last"/);
-                  if (match) return parseInt(match[1]);
-              }
-              return response.json().then(d => Array.isArray(d) ? d.length : 0).catch(() => 0);
-          }).catch(() => 0);
-        const fetchContributors = fetch('https://api.github.com/repos/' + repo + '/contributors?per_page=1&anon=true', { referrerPolicy: "no-referrer" })
-          .then(response => {
-              if (!response.ok) return 0;
-              const link = response.headers.get('link');
-              if (link) {
-                  const match = link.match(/page=([0-9]+)>; rel="last"/);
-                  if (match) return parseInt(match[1]);
-              }
-              return response.json().then(d => Array.isArray(d) ? d.length : 0).catch(() => 0);
-          }).catch(() => 0);
+		const repo = "${repo}";
+      const fetchRepo = fetch('https://api.github.com/repos/' + repo, { referrerPolicy: "no-referrer" }).then(response => response.json());
+      const fetchCommits = fetch('https://api.github.com/repos/' + repo + '/commits?sha=main&per_page=1&page=1', { referrerPolicy: "no-referrer" })
+        .then(response => {
+            if (!response.ok) return 0;
+            const link = response.headers.get('link');
+            if (link) {
+                const match = link.match(/page=([0-9]+)>; rel="last"/);
+                if (match) return parseInt(match[1]);
+            }
+            return response.json().then(d => Array.isArray(d) ? d.length : 0).catch(() => 0);
+        }).catch(() => 0);
+      const fetchContributors = fetch('https://api.github.com/repos/' + repo + '/contributors?per_page=1&anon=true', { referrerPolicy: "no-referrer" })
+        .then(response => {
+            if (!response.ok) return 0;
+            const link = response.headers.get('link');
+            if (link) {
+                const match = link.match(/page=([0-9]+)>; rel="last"/);
+                if (match) return parseInt(match[1]);
+            }
+            return response.json().then(d => Array.isArray(d) ? d.length : 0).catch(() => 0);
+        }).catch(() => 0);
 
-        Promise.all([fetchRepo, fetchCommits, fetchContributors]).then(([data, commits, contributors]) => {
-          const descriptionEl = document.getElementById('${cardUuid}-description');
-          if (descriptionEl) descriptionEl.innerText = data.description?.replace(/:[a-zA-Z0-9_]+:/g, '') || "Description not set";
-          
-          const languageEl = document.getElementById('${cardUuid}-language');
-          if (languageEl) languageEl.innerText = data.language;
-          
-          const commitsEl = document.getElementById('${cardUuid}-commits');
-          if (commitsEl) commitsEl.innerText = Intl.NumberFormat('en-us', { notation: "compact", maximumFractionDigits: 1 }).format(commits).replaceAll("\\u202f", '');
-          
-          const contributorsEl = document.getElementById('${cardUuid}-contributors');
-          if (contributorsEl) contributorsEl.innerText = Intl.NumberFormat('en-us', { notation: "compact", maximumFractionDigits: 1 }).format(contributors).replaceAll("\\u202f", '');
-          
-          const avatarEl = document.getElementById('${cardUuid}-avatar');
-          if (avatarEl) {
-            avatarEl.style.backgroundImage = 'url(' + data.owner.avatar_url + ')';
-            avatarEl.style.backgroundColor = 'transparent';
-          }
-
-          const licenseEl = document.getElementById('${cardUuid}-license');
-          if (licenseEl) licenseEl.innerText = data.license?.spdx_id || "no-license";
-          
-          const cardEl = document.getElementById('${cardUuid}-card');
-          if (cardEl) cardEl.classList.remove("fetch-waiting");
-          
-          console.log("[GITHUB-CARD] Loaded card for ${repo} | ${cardUuid}.")
-        }).catch(err => {
-          const c = document.getElementById('${cardUuid}-card');
-          if (c) {
-            c.classList.add("fetch-error");
-            c.classList.remove("fetch-waiting");
-          }
-          console.warn("[GITHUB-CARD] (Error) Loading card for ${repo} | ${cardUuid}.")
-        })
-      })();
-    `,
+      Promise.all([fetchRepo, fetchCommits, fetchContributors]).then(([data, commits, contributors]) => {
+        document.getElementById('${cardUuid}-description').innerText = data.description?.replace(/:[a-zA-Z0-9_]+:/g, '') || "Description not set";
+        document.getElementById('${cardUuid}-language').innerText = data.language;
+        document.getElementById('${cardUuid}-commits').innerText = Intl.NumberFormat('en-us', { notation: "compact", maximumFractionDigits: 1 }).format(commits).replaceAll("\\u202f", '');
+        document.getElementById('${cardUuid}-contributors').innerText = Intl.NumberFormat('en-us', { notation: "compact", maximumFractionDigits: 1 }).format(contributors).replaceAll("\\u202f", '');
+        const avatarEl = document.getElementById('${cardUuid}-avatar');
+        avatarEl.style.backgroundImage = 'url(' + data.owner.avatar_url + ')';
+        avatarEl.style.backgroundColor = 'transparent';
+        document.getElementById('${cardUuid}-license').innerText = data.license?.spdx_id || "no-license";
+        document.getElementById('${cardUuid}-card').classList.remove("fetch-waiting");
+        console.log("[GITHUB-CARD] Loaded card for ${repo} | ${cardUuid}.")
+      }).catch(err => {
+        const c = document.getElementById('${cardUuid}-card');
+		 c?.classList.add("fetch-error");
+        console.warn("[GITHUB-CARD] (Error) Loading card for ${repo} | ${cardUuid}.")
+      })
+    })();
+	  `,
 	);
 
 	return h(
