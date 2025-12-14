@@ -9,5 +9,6 @@
 * Tradeoffs : <!-- Tradeoffs !-->
 
 ### 🎯 Priority
-* [] **High** (Critical for immediate use/major improvement)
-* [] **Medium** (Good improvement/needed soon)
+- [ ] **High** (Critical for immediate use/major improvement)
+- [ ] **Medium** (Good improvement/needed soon)
+- [ ] **Minimal** (Small fix / adjustment / refactor)
