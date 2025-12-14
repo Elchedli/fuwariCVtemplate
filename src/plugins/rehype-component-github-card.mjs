@@ -62,7 +62,8 @@ export function GithubCardComponent(properties, children) {
 		`script#${cardUuid}-script`,
 		{ type: "text/javascript", defer: true },
 		`
-      const repo = "${repo}";
+      (() => {
+		const repo = "${repo}";
       const fetchRepo = fetch('https://api.github.com/repos/' + repo, { referrerPolicy: "no-referrer" }).then(response => response.json());
       const fetchCommits = fetch('https://api.github.com/repos/' + repo + '/commits?sha=main&per_page=1&page=1', { referrerPolicy: "no-referrer" })
         .then(response => {
@@ -98,10 +99,11 @@ export function GithubCardComponent(properties, children) {
         console.log("[GITHUB-CARD] Loaded card for ${repo} | ${cardUuid}.")
       }).catch(err => {
         const c = document.getElementById('${cardUuid}-card');
-        c?.classList.add("fetch-error");
+		 c?.classList.add("fetch-error");
         console.warn("[GITHUB-CARD] (Error) Loading card for ${repo} | ${cardUuid}.")
       })
-    `,
+    })();
+	  `,
 	);
 
 	return h(
